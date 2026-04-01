@@ -69,9 +69,10 @@ const NAV_ITEMS: NavItem[] = [
 
 interface SidebarProps {
   userEmail?: string
+  userPlan?: string
 }
 
-export function Sidebar({ userEmail }: SidebarProps) {
+export function Sidebar({ userEmail, userPlan = 'free' }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -151,9 +152,24 @@ export function Sidebar({ userEmail }: SidebarProps) {
 
       {/* User + Sign out */}
       <div className="px-3 pb-4 pt-2 border-t border-zinc-800/60 space-y-2">
-        {/* User info */}
-        <div className="px-3 py-2 rounded-lg bg-zinc-800/40 border border-zinc-800">
-          <p className="text-xs text-zinc-500 truncate">{userEmail}</p>
+        {/* User info + Plan badge */}
+        <div className="px-3 py-2 rounded-lg bg-zinc-800/40 border border-zinc-800 space-y-1">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs text-zinc-500 truncate flex-1">{userEmail}</p>
+            {userPlan === 'premium' ? (
+              <span className="flex-shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400">
+                PREMIUM
+              </span>
+            ) : userPlan === 'pro' ? (
+              <span className="flex-shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-green-500/20 border border-green-500/30 text-green-400">
+                PRO
+              </span>
+            ) : (
+              <span className="flex-shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-zinc-700/50 border border-zinc-700 text-zinc-500">
+                FREE
+              </span>
+            )}
+          </div>
         </div>
         {/* Tutorial reset */}
         <TutorialResetButton />

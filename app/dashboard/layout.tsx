@@ -18,13 +18,24 @@ export default async function DashboardLayout({
     redirect('/login')
   }
 
+  // プラン情報を取得してサイドバーに渡す
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: sub } = await (supabase as any)
+    .from('subscriptions')
+    .select('plan, status')
+    .eq('user_id', user.id)
+    .single()
+  const userPlan = (sub?.status === 'active' || sub?.status === 'trialing')
+    ? (sub?.plan ?? 'free')
+    : 'free'
+
   return (
     <div className="min-h-screen bg-[#050505]">
       {/* 初回ユーザー向けチュートリアル */}
       <TutorialOverlay />
 
       {/* Side Navigation */}
-      <Sidebar userEmail={user.email} />
+      <Sidebar userEmail={user.email} userPlan={userPlan} />
 
       {/* Main content — left margin for sidebar */}
       {/* pt-14: モバイルのハンバーガーボタン(fixed top-3)との重なりを防ぐ */}
