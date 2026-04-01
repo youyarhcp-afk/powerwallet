@@ -1,5 +1,6 @@
 import { EnergyForm } from '@/components/energy-form'
 import { CsvUpload } from '@/components/csv-upload'
+import { TooltipHelp } from '@/components/tooltip-help'
 import { DatabaseZap, FileSpreadsheet } from 'lucide-react'
 
 export const metadata = {
@@ -12,7 +13,10 @@ export default function InputPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-xl font-bold text-white">データ入力</h1>
+          <div className="flex items-center gap-1.5">
+            <h1 className="text-xl font-bold text-white">データ入力</h1>
+            <TooltipHelp text="太陽光発電量、蓄電池のSOC、EV充電量、電力消費量などを記録します。データが蓄積されるほどAI最適化の提案精度が向上します。" position="right" size="md" />
+          </div>
           <p className="text-zinc-500 text-sm mt-1">
             エネルギーデータを手動入力またはCSVで一括登録します
           </p>
@@ -26,7 +30,10 @@ export default function InputPage() {
                 <DatabaseZap className="w-4 h-4 text-purple-400" />
               </div>
               <div>
-                <h2 className="font-semibold text-white text-sm">手動入力</h2>
+                <div className="flex items-center gap-1">
+                  <h2 className="font-semibold text-white text-sm">手動入力</h2>
+                  <TooltipHelp text="日付・電力源・kWh・SOC（充電状態）を1件ずつ入力できます。メモ欄には天気や特記事項を記録しておくと後で分析に役立ちます。" position="right" />
+                </div>
                 <p className="text-xs text-zinc-500">1件ずつデータを登録</p>
               </div>
             </div>
@@ -40,9 +47,12 @@ export default function InputPage() {
                 <FileSpreadsheet className="w-4 h-4 text-orange-400" />
               </div>
               <div>
-                <h2 className="font-semibold text-white text-sm">
-                  CSVアップロード
-                </h2>
+                <div className="flex items-center gap-1">
+                  <h2 className="font-semibold text-white text-sm">
+                    CSVアップロード
+                  </h2>
+                  <TooltipHelp text="CSVファイルで複数のデータを一括登録できます。下のフォーマット仕様に従ってCSVを作成してください。HEMSやパワコンからエクスポートしたデータも取り込めます。" position="left" />
+                </div>
                 <p className="text-xs text-zinc-500">複数件を一括インポート</p>
               </div>
             </div>

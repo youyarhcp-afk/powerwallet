@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/toast";
+import { GlobalErrorHandler } from "@/components/error-boundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,10 +19,22 @@ export const metadata: Metadata = {
   description:
     "太陽光・蓄電池・EV・家電をひとつに。AIがリアルタイムで最適なエネルギー収益を実現します。2026年4月低圧VPP解禁対応。",
   keywords: ["VPP", "太陽光発電", "蓄電池", "EV", "エネルギー管理", "PowerWallet"],
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "PowerWallet",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export const viewport: Viewport = {
   themeColor: "#050505",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
@@ -33,7 +47,11 @@ export default function RootLayout({
       lang="ja"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        <GlobalErrorHandler />
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

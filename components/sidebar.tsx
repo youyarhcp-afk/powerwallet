@@ -14,8 +14,12 @@ import {
   ChevronRight,
   Menu,
   X,
+  Sparkles,
+  Crown,
+  Settings,
 } from 'lucide-react'
 import { useState } from 'react'
+import { TutorialResetButton } from '@/components/tutorial-overlay'
 
 interface NavItem {
   href: string
@@ -48,6 +52,18 @@ const NAV_ITEMS: NavItem[] = [
     label: '履歴',
     labelSub: 'History',
     icon: History,
+  },
+  {
+    href: '/dashboard/subscription',
+    label: 'プラン・料金',
+    labelSub: 'Upgrade',
+    icon: Crown,
+  },
+  {
+    href: '/dashboard/settings',
+    label: '設定',
+    labelSub: 'Settings',
+    icon: Settings,
   },
 ]
 
@@ -139,6 +155,8 @@ export function Sidebar({ userEmail }: SidebarProps) {
         <div className="px-3 py-2 rounded-lg bg-zinc-800/40 border border-zinc-800">
           <p className="text-xs text-zinc-500 truncate">{userEmail}</p>
         </div>
+        {/* Tutorial reset */}
+        <TutorialResetButton />
         {/* Sign out */}
         <button
           onClick={handleSignOut}

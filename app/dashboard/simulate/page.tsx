@@ -1,5 +1,6 @@
 import { VppSimulator } from '@/components/vpp-simulator'
 import { OptimizeButton } from '@/components/optimize-button'
+import { TooltipHelp } from '@/components/tooltip-help'
 import { TrendingUp, Sparkles, Info } from 'lucide-react'
 
 export const metadata = {
@@ -12,7 +13,10 @@ export default function SimulatePage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-xl font-bold text-white">シミュレーター</h1>
+          <div className="flex items-center gap-1.5">
+            <h1 className="text-xl font-bold text-white">シミュレーター</h1>
+            <TooltipHelp text="VPP（仮想発電所）参加時の収入をシミュレーションしたり、AIによる充放電の最適化提案を受け取ることができます。" position="right" size="md" />
+          </div>
           <p className="text-zinc-500 text-sm mt-1">
             VPP収入の試算と AI最適化提案
           </p>
@@ -26,9 +30,12 @@ export default function SimulatePage() {
                 <TrendingUp className="w-4 h-4 text-blue-400" />
               </div>
               <div>
-                <h2 className="font-semibold text-white text-sm">
-                  VPP収入シミュレーター
-                </h2>
+                <div className="flex items-center gap-1">
+                  <h2 className="font-semibold text-white text-sm">
+                    VPP収入シミュレーター
+                  </h2>
+                  <TooltipHelp text="蓄電池容量・太陽光発電容量・VPP参加率の3つのスライダーを調整して、月間の想定VPP収入を試算できます。実際の収入は市場状況により変動します。" position="right" />
+                </div>
                 <p className="text-xs text-zinc-500">
                   2026年4月 低圧VPP解禁後の試算
                 </p>
@@ -44,9 +51,12 @@ export default function SimulatePage() {
                 <Sparkles className="w-4 h-4 text-green-400" />
               </div>
               <div>
-                <h2 className="font-semibold text-white text-sm">
-                  AI最適化エンジン
-                </h2>
+                <div className="flex items-center gap-1">
+                  <h2 className="font-semibold text-white text-sm">
+                    AI最適化エンジン
+                  </h2>
+                  <TooltipHelp text="電力市場価格と天気予報に基づき、充電・放電・VPP参加の最適タイミングをAIが提案します。" position="left" />
+                </div>
                 <p className="text-xs text-zinc-500">
                   リアルタイム収益最大化
                 </p>

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
+import { TutorialOverlay } from '@/components/tutorial-overlay'
 
 export default async function DashboardLayout({
   children,
@@ -19,6 +20,9 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-[#050505]">
+      {/* 初回ユーザー向けチュートリアル */}
+      <TutorialOverlay />
+
       {/* Side Navigation */}
       <Sidebar userEmail={user.email} />
 

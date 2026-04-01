@@ -1,0 +1,44 @@
+{
+  "name": "PowerWallet — あなたのエネルギーウォレット",
+  "short_name": "PowerWallet",
+  "description": "太陽光・蓄電池・EV・家電をひとつに。AIがリアルタイムで最適なエネルギー収益を実現。",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "portrait-primary",
+  "lang": "ja",
+  "categories": ["finance", "utilities", "energy"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "ダッシュボード",
+      "short_name": "Dashboard",
+      "description": "エネルギー状況を確認",
+      "url": "/dashboard",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "データ入力",
+      "short_name": "Input",
+      "description": "エネルギーデータを記録",
+      "url": "/dashboard/input",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

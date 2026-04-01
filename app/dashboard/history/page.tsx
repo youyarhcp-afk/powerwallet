@@ -1,7 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
-import { History, Trash2, Sun, Battery, Car, Zap } from 'lucide-react'
+import { History, Trash2, Sun, Battery, Car, Zap, BarChart2 } from 'lucide-react'
 import type { EnergyLog } from '@/types/supabase'
 import { DeleteLogButton } from '@/components/delete-log-button'
+import { TooltipHelp } from '@/components/tooltip-help'
+import { EnergyChart, type ChartDataPoint } from '@/components/energy-chart'
+import { CsvExportButton } from '@/components/csv-export-button'
 
 export const metadata = {
   title: '履歴 — PowerWallet',
@@ -53,6 +56,19 @@ export default async function HistoryPage() {
     .limit(100)
   const logs = (logsRaw ?? []) as EnergyLog[]
 
+  // グラフ用データを日付×ソース別に集計
+  const chartMap = new Map<string, ChartDataPoint>()
+  for (const log of logs) {
+    const d = log.logged_date
+    if (!chartMap.has(d)) {
+      chartMap.set(d, { date: d, solar: 0, battery: 0, ev: 0, grid: 0 })
+    }
+    const entry = chartMap.get(d)!
+    const src = log.source as keyof Omit<ChartDataPoint, 'date'>
+    if (src in entry) entry[src] += Number(log.kwh)
+  }
+  const chartData: ChartDataPoint[] = Array.from(chartMap.values())
+
   // 日付でグループ化
   const grouped = logs.reduce<Record<string, EnergyLog[]>>((acc, log) => {
     const date = log.logged_date
@@ -69,21 +85,43 @@ export default async function HistoryPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">履歴</h1>
+            <div className="flex items-center gap-1.5">
+              <h1 className="text-xl font-bold text-white">履歴</h1>
+              <TooltipHelp text="データ入力ページから登録したエネルギーデータの一覧です。日付ごとにグループ化されており、各データの削除もできます。データが多いほどAI最適化の精度が向上します。" position="right" size="md" />
+            </div>
             <p className="text-zinc-500 text-sm mt-1">
               登録済みのエネルギーデータ（最新{logs.length}件）
             </p>
           </div>
           {logs && logs.length > 0 && (
-            <div className="text-right">
-              <p className="text-xs text-zinc-600">合計</p>
-              <p className="text-lg font-bold text-white tabular-nums">
-                {logs.reduce((s, l) => s + Number(l.kwh), 0).toFixed(1)}
-                <span className="text-sm text-zinc-500 ml-1">kWh</span>
-              </p>
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <p className="text-xs text-zinc-600">合計</p>
+                <p className="text-lg font-bold text-white tabular-nums">
+                  {logs.reduce((s, l) => s + Number(l.kwh), 0).toFixed(1)}
+                  <span className="text-sm text-zinc-500 ml-1">kWh</span>
+                </p>
+              </div>
+              <CsvExportButton label="CSV" />
             </div>
           )}
         </div>
+
+        {/* グラフ */}
+        {chartData.length > 0 && (
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-5">
+            <div className="flex items-center gap-1.5 mb-4">
+              <BarChart2 className="w-4 h-4 text-zinc-500" />
+              <h2 className="text-sm font-semibold text-white">電力推移グラフ</h2>
+              <TooltipHelp
+                text="過去30日間の電力ソース別kWh推移です。凡例ボタンでソースを絞り込めます。バーにホバーすると詳細が表示されます。"
+                position="right"
+                size="sm"
+              />
+            </div>
+            <EnergyChart data={chartData} height={220} />
+          </div>
+        )}
 
         {/* Error */}
         {error && (
