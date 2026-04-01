@@ -7,11 +7,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+import { checkRateLimit } from '@/lib/validations'
 
 // Vercel: 最大1万行のCSV生成のため60秒を宣言（Proプラン必須）
 export const maxDuration = 60
-import { createClient } from '@/lib/supabase/server'
-import { checkRateLimit } from '@/lib/validations'
 
 const CSV_HEADERS = ['日付', '電力源', 'kWh', 'SOC(%)', 'メモ', '登録日時']
 

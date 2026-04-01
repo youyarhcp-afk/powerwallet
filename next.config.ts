@@ -96,11 +96,12 @@ const nextConfig: NextConfig = {
   },
 
   // Webpack設定（バンドルサイズ最適化）
-  webpack(config, { isServer }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  webpack(config: any, { isServer }: { isServer: boolean }) {
     if (!isServer) {
       // クライアントバンドルからNode.js専用モジュールを除外
       config.resolve.fallback = {
-        ...config.resolve.fallback,
+        ...(config.resolve.fallback ?? {}),
         fs: false,
         net: false,
         tls: false,
